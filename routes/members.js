@@ -144,6 +144,27 @@ router.post('/', (req, res) => {
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const memberDataIndex = members.findIndex(member => member.id === Number(id));
+
+  if (memberDataIndex === -1) {
+    res.status(404).json({ error: '會員不存在' })
+  }
+
+  if (!req.body.level) {
+    res.status(400).json({ error: '缺少 level 資料' });
+  }
+
+  const { level } = req.body;
+  const originMemberData = { ...members[memberDataIndex] };
+  members[memberDataIndex] = {
+    ...originMemberData,
+    level
+  };
+
+  res.status(200).json(members[memberDataIndex]);
+})
 
 // DELETE /:id
 // - 輸入：req.params.id（string，需 Number() 轉換）
@@ -152,5 +173,16 @@ router.METHOD('PATH', (req, res) => { ... });
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  const memberDataIndex = members.findIndex(member => member.id === Number(id));
+
+  if (memberDataIndex === -1) {
+    res.status(404).json({ error: '會員不存在' })
+  }
+
+  members.splice(memberDataIndex, 1);
+  res.status(204).end();
+})
 
 module.exports = router;
