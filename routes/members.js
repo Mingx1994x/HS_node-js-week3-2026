@@ -71,7 +71,6 @@ const router = express.Router();
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
-
 router.get('/', (req, res) => {
   const { level } = req.query;
   const data = filterByQuery(members, level);
@@ -85,6 +84,24 @@ router.get('/', (req, res) => {
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  const findId = Number(id);
+  const isExistMember = members.find(member => member.id === findId);
+
+  if (!isExistMember) {
+    res.status(404).json({ error: '會員不存在' });
+  }
+
+  const { id: memberId, name, level } = isExistMember;
+  res.status(200).json({
+    id: memberId,
+    name,
+    level
+  })
+
+})
 
 // ───────────────────────────────────────────────────────────
 // TODO 任務三：POST /
