@@ -28,12 +28,10 @@ let nextId = members.length + 1;
 /* 作答區
 function filterByQuery(list, query) { ... }
 */
-function filterByQuery(list, query) {
-  const filterLevel = query?.level;
+function filterByQuery(list, query = '') {
+  if (!query) return list
 
-  if (!filterLevel) return list
-
-  return list.filter(item => item.level === level)
+  return list.filter(item => item.level === query)
 }
 
 // 函式二：validateBody(body)
@@ -73,6 +71,12 @@ const router = express.Router();
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
+
+router.get('/', (req, res) => {
+  const { level } = req.query;
+  const data = filterByQuery(members, level);
+  res.status(200).json([...data])
+})
 
 // GET /:id
 // - 輸入：req.params.id（string，需使用 Number() 轉換）
