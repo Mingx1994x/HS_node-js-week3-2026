@@ -12,11 +12,13 @@ const initialMembers = require('../fixtures/members.json');
 /* 作答區
 const members = ...;
 */
+const members = [...initialMembers];
 
 // 2. 下一個新增會員要使用的 id
 /* 作答區
 let nextId = ...;
 */
+let nextId = members.length + 1;
 
 // 3. 兩個內部 helper 函式
 
@@ -26,6 +28,13 @@ let nextId = ...;
 /* 作答區
 function filterByQuery(list, query) { ... }
 */
+function filterByQuery(list, query) {
+  const filterLevel = query?.level;
+
+  if (!filterLevel) return list
+
+  return list.filter(item => item.level === level)
+}
 
 // 函式二：validateBody(body)
 // - 驗證 body 有沒有 name、level 欄位，要擋 null / undefined / {}
@@ -35,6 +44,18 @@ function filterByQuery(list, query) { ... }
 /* 作答區
 function validateBody(body) { ... }
 */
+function validateBody(body) {
+  const { name, level } = body;
+
+  if (!name || !level) {
+    return {
+      valid: false,
+      error: '缺 name 或 level'
+    }
+  }
+
+  return { valid: true }
+}
 
 const router = express.Router();
 // 此 router 掛在 app.js 的 '/members'，以下路由皆帶此前綴。舉例來說：
