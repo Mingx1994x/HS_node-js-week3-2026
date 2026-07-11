@@ -4,6 +4,7 @@
   "description": "Node.js 後端 10 週班 Week 3 作業：Express + 會員 CRUD + 通用圖片上傳 + Swagger UI",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "jest --runInBand"
   },
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "nodemon": "^3.1.14",
     "supertest": "^7.0.0"
   }
 }
