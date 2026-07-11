@@ -43,15 +43,12 @@ function filterByQuery(list, query = '') {
 function validateBody(body) { ... }
 */
 function validateBody(body) {
-  const { name, level } = body;
-
-  if (!name || !level) {
+  if (!body || !body.name || !body.level) {
     return {
       valid: false,
       error: '缺 name 或 level'
     }
   }
-
   return { valid: true }
 }
 
@@ -115,6 +112,25 @@ router.get('/:id', (req, res) => {
 /* 作答區
 router.METHOD('PATH', (req, res) => { ... });
 */
+router.post('/', (req, res) => {
+  const validResult = validateBody(req.body);
+
+  if (!validResult.valid) {
+    res.status(400).json({
+      error: validResult.error
+    });
+  }
+
+  const { name, level } = req.body;
+  const newMember = {
+    id: nextId,
+    name,
+    level
+  };
+
+  members.push(newMember);
+  res.status(201).json(newMember);
+})
 
 // ───────────────────────────────────────────────────────────
 // TODO 任務四：PUT /:id 和 DELETE /:id
