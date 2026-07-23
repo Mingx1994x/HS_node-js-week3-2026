@@ -43,7 +43,7 @@ function filterByQuery(list, query = '') {
 function validateBody(body) { ... }
 */
 function validateBody(body) {
-  if (!body || !body.name || !body.level) {
+  if (!(typeof body === 'object') || !body || !body.name || !body.level) {
     return {
       valid: false,
       error: '缺 name 或 level'
