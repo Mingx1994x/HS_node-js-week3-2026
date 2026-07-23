@@ -129,6 +129,7 @@ router.post('/', (req, res) => {
   };
 
   members.push(newMember);
+  nextId++;
   res.status(201).json(newMember);
 })
 
